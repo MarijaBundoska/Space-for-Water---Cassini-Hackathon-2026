@@ -1,0 +1,10 @@
+requests
+pandas
+matplotlib
+flask
+flask-cors
+sentinelsat
+sentinelhub
+numpy
+scikit-learn
+xgboost

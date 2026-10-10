@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CASSINI Flood Forecast</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    input, button { padding: 8px; font-size: 1rem; margin-right: 8px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+    th { background: #f4f4f4; }
+  </style>
+</head>
+<body>
+  <h1>CASSINI Flood Forecast</h1>
+  <div>
+    <label>Latitude <input id="lat" type="number" step="0.01" value="41.99"></label>
+    <label>Longitude <input id="lon" type="number" step="0.01" value="21.43"></label>
+    <label>Days <input id="days" type="number" min="3" max="7" value="7"></label>
+    <button onclick="fetchForecast()">Load Forecast</button>
+  </div>
+  <div id="summary"></div>
+  <table id="forecast-table">
+    <thead>
+      <tr><th>Date</th><th>Precipitation (mm)</th><th>Probability (%)</th><th>Risk (%)</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    async function fetchForecast() {
+      const lat = document.getElementById('lat').value;
+      const lon = document.getElementById('lon').value;
+      const days = document.getElementById('days').value;
+      const url = `http://127.0.0.1:5000/forecast?lat=${lat}&lon=${lon}&days=${days}`;
+
+      const response = await fetch(url);
+      if (!response.ok) {
+        const error = await response.json();
+        alert(error.error || 'Forecast request failed');
+        return;
+      }
+
+      const data = await response.json();
+      const tbody = document.querySelector('#forecast-table tbody');
+      tbody.innerHTML = '';
+
+      data.forecast.forEach(day => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${day.date}</td>
+          <td>${day.precipitation_sum_mm}</td>
+          <td>${day.precipitation_probability_max}</td>
+          <td>${day.risk}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      document.getElementById('summary').innerHTML = `
+        <p><strong>Forecast horizon:</strong> ${data.summary.forecast_days} days</p>
+        <p><strong>Average risk:</strong> ${data.summary.average_risk}%</p>
+        <p><strong>Max risk:</strong> ${data.summary.max_risk}%</p>
+      `;
+    }
+  </script>
+</body>
+</html>

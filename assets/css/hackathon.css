@@ -1,0 +1,293 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.app-container {
+    width: 360px;
+    height: 740px;
+    position: relative;
+    border-radius: 35px;
+    border: 8px solid #1a1a1a;
+    overflow: hidden;
+    background-color: #0b1118;
+    box-shadow: 0 0 40px rgba(0,0,0,0.7);
+}
+
+.intro-screen {
+    position: absolute;
+    inset: 0;
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #09101a 0%, #020508 65%);
+    overflow: hidden;
+}
+
+.intro-background {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+#canvas-container {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+}
+
+.intro-overlay {
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+}
+
+#start-btn {
+    background: #00d2ff;
+    color: #041028;
+    border: none;
+    border-radius: 999px;
+    padding: 14px 32px;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 14px 30px rgba(0,210,255,0.22);
+}
+
+#start-btn:hover {
+    transform: translateY(-1px);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Стаклен ефект за лентите */
+.top-bar, .bottom-nav {
+    position: absolute;
+    z-index: 10;
+    background: rgba(18, 26, 36, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+}
+
+.top-bar {
+    top: 20px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-around;
+    padding: 12px;
+    border-radius: 15px;
+}
+
+.bottom-nav {
+    bottom: 25px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    border-radius: 30px;
+}
+
+.stat-box { text-align: center; }
+.stat-box span { font-size: 8px; opacity: 0.5; display: block; letter-spacing: 1px; }
+.stat-box strong { font-size: 13px; color: #00d2ff; }
+
+.nav-item {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.nav-item.active { color: #00d2ff; opacity: 1; }
+
+/* SIDE PANEL */
+.side-panel {
+    position: absolute;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    background: #0b1118;
+    z-index: 1000;
+    transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+.side-panel.active { right: 0; }
+
+.side-panel .panel-header h2 {
+    color: white;
+    font-size: 20px;
+    margin: 0 0 20px 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #00d2ff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+/* КАРТИЧКИ */
+.alert-card {
+    position: relative;
+    height: 130px;
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid rgba(255,255,255,0.1);
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.5s ease, background-image 0.3s ease;
+}
+
+.side-panel.active .alert-card {
+    opacity: 0.95;
+    transform: translateX(0);
+}
+
+.alert-card:hover {
+    background-image: none !important;
+    background-color: rgba(0, 210, 255, 0.15);
+    border: 1px solid #00d2ff;
+    opacity: 1;
+}
+
+.fire {
+    background: linear-gradient(90deg, rgba(11, 17, 24, 1) 0%, rgba(11, 17, 24, 0.7) 40%, rgba(11, 17, 24, 0.1) 100%), url('/static/images/Pozar.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.drought {
+    background: linear-gradient(90deg, rgba(11, 17, 24, 1) 0%, rgba(11, 17, 24, 0.7) 40%, rgba(11, 17, 24, 0.1) 100%), url('/static/images/Susa.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.flood {
+    background: linear-gradient(90deg, rgba(11, 17, 24, 1) 0%, rgba(11, 17, 24, 0.7) 40%, rgba(11, 17, 24, 0.1) 100%), url('/static/images/Poplava.jpg');
+    background-size: cover;
+    background-position: center;
+}
+
+.alert-info { z-index: 5; }
+.alert-info strong { display: block; color: white; font-size: 17px; text-transform: uppercase; }
+.alert-info span { color: #00d2ff; font-size: 12px; opacity: 0.8; }
+
+.side-panel.active .alert-card:nth-child(1) { transition-delay: 0.1s; }
+.side-panel.active .alert-card:nth-child(2) { transition-delay: 0.2s; }
+.side-panel.active .alert-card:nth-child(3) { transition-delay: 0.3s; }
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: absolute;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #121a24;
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid #ff4d4d;
+    width: 80%;
+    color: white;
+    text-align: center;
+}
+
+.risk-table { width: 100%; margin-top: 15px; font-size: 14px; }
+.risk-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+.close-modal {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+    color: #ff4d4d;
+    width: 35px;
+    height: 35px;
+    border: 2px solid rgba(255, 77, 77, 0.43);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 2px;
+    box-shadow: 0 0 5px rgb(255, 77, 77);
+    transition: all 0.3s ease;
+    animation: pulse-red 2s infinite;
+}
+
+.close-modal:hover {
+    background-color: rgb(255, 77, 77);
+    color: rgb(255, 255, 255);
+    box-shadow: 0 0 20px rgba(236, 49, 32, 0.28);
+    transform: scale(1.1);
+}
+
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0px 0px rgba(255, 77, 77, 0.7);
+    }
+    30% {
+        box-shadow: 0 0 0px 10px rgba(255, 77, 77, 0);
+    }
+    95% {
+        box-shadow: 0 0 0px 0px rgba(255, 77, 77, 0);
+    }
+}

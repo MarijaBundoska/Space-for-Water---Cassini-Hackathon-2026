@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASSINI Space for Water - Flood Forecast</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="/static/css/hackathon.css">
+</head>
+<body>
+
+<div class="app-container">
+    <div id="intro-screen" class="intro-screen">
+        <div class="intro-background">
+            <div id="canvas-container"></div>
+        </div>
+        <div class="intro-overlay">
+            <button onclick="startApp()" id="start-btn">ENTER THE MAP</button>
+        </div>
+    </div>
+
+    <div id="main-app" style="display:none; opacity: 0;">
+        <div id="map"></div>
+
+        <div id="alerts-panel" class="side-panel">
+            <button class="close-btn" onclick="closeAlerts()">← Back</button>
+            <div class="panel-header">
+                <h2 id="panel-title">ALERTS</h2>
+            </div>
+            <div class="alerts-list">
+                <div class="alert-card fire" onclick="focusLocation(41.7, 22.8)">
+                    <div class="alert-info">
+                        <strong>Forest Fire</strong>
+                        <span>Berovo Region</span>
+                    </div>
+                </div>
+
+                <div class="alert-card drought" onclick="focusLocation(41.4, 21.3)">
+                    <div class="alert-info">
+                        <strong>Severe Drought</strong>
+                        <span>Prilep Region</span>
+                    </div>
+                </div>
+
+                <div class="alert-card flood" onclick="focusLocation(41.9, 21.0)">
+                    <div class="alert-info">
+                        <strong>Flood Warning</strong>
+                        <span>Polog Valley</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="top-bar">
+            <div class="stat-box" onclick="show7DayGraph()"><span>STATUS</span><strong>FORECAST</strong></div>
+            <div class="stat-box"><span>LOCATION</span><strong id="loc-name">MACEDONIA</strong></div>
+            <div class="stat-box" onclick="showRiskModal()"><span>RISK</span><strong id="risk-level" style="color: #ff4d4d;">HIGH</strong></div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="nav-item active" onclick="showNearest()">NEAREST</button>
+            <button class="nav-item" onclick="showFloodAlerts()">FLOOD ALERTS</button>
+            <button class="nav-item" onclick="showDroughtAlerts()">DROUGHT ALERTS</button>
+        </div>
+
+        <div id="risk-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeRiskModal()">&times;</span>
+                <h3>RISK ASSESSMENT</h3>
+                <table class="risk-table">
+                    <tr><td>Current Flood levels:</td><td style="color: rgb(128,213,234);" id="flood-level">Low (1.2m)</td></tr>
+                    <tr><td>Current Drought:</td><td style="color: rgb(229,188,13);" id="drought-level">Moderate</td></tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="/static/js/hackathon.js"></script>
+</body>
+</html>
