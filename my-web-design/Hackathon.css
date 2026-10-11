@@ -1,0 +1,437 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+.app-container {
+    width: 360px;
+    height: 740px;
+    position: relative;
+    border-radius: 35px;
+    border: 8px solid #1a1a1a;
+    overflow: hidden;
+    background-color: #0b1118;
+    box-shadow: 0 0 40px rgba(0,0,0,0.7);
+}
+
+#map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Стаклен ефект за лентите */
+.top-bar, .bottom-nav {
+    position: absolute;
+    z-index: 10;
+    background: rgba(18, 26, 36, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+}
+.bottom-nav .nav-item:hover{
+    background: rgba(6, 49, 6, 0.74);
+}
+
+.top-bar {
+    position: absolute;
+    top: 20px;
+    left: 5%;         /* Го поместуваме за 5% од лево */
+    width: 90%;       /* Ширината е 90% од екранот */
+    display: flex;
+    justify-content: space-between; /* Ги распределува кутиите рамномерно */
+    align-items: center;
+    padding: 10px;
+    /*margin-left:15px;*/
+    /*margin-right:15px;*/
+    box-sizing: border-box; /* Ова спречува padding-от да ја зголеми ширината */
+    background: rgba(18, 26, 36, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 15px;
+    z-index: 50; /* Висок индекс за да биде над мапата */
+}
+
+/* Дополнително: Осигурај се дека stat-box изгледаат добро внатре */
+.stat-box {
+    flex: 1; /* Ова прави секоја кутија да зазема еднаков простор */
+    text-align: center;
+}
+
+.bottom-nav {
+    bottom: 25px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    border-radius: 30px;
+}
+
+.stat-box { text-align: center; }
+.stat-box span { font-size: 8px; opacity: 0.5; display: block; letter-spacing: 1px; }
+.stat-box strong { font-size: 13px; color: #00d2ff; }
+
+.nav-item {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    opacity: 0.6;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.top-bar .stat-box{
+    margin-right: 10px;
+
+}
+
+.nav-item.active { color: #00d2ff; opacity: 1; }
+
+/* SIDE PANEL */
+.side-panel {
+    position: absolute;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    background: #0b1118;
+    z-index: 1000;
+    transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
+    box-sizing: border-box;
+}
+
+.side-panel.active { right: 0; }
+
+.side-panel .panel-header h2 {
+    color: white;
+    font-size: 20px;
+    margin: 0 0 20px 0;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: #00d2ff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+/* КАРТИЧКИ */
+.alert-card {
+    position: relative;
+    height: 130px;
+    width: 100%;
+    margin-bottom: 15px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid rgba(255,255,255,0.1);
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+
+    /* Анимација на појавување */
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 0.5s ease, background-image 0.3s ease;
+}
+
+.side-panel.active .alert-card {
+    opacity: 0.95;
+    transform: translateX(0);
+}
+
+/* HOVER: ДА ЈА СНЕМА СЛИКАТА */
+.alert-card:hover {
+    background-image: none !important;
+    background-color: rgba(0, 210, 255, 0.15);
+    border: 1px solid #00d2ff;
+    opacity: 1;
+}
+
+/* СЛИКИ СО ТЕМЕН ГРАДИЕНТ (За порамнување лево) */
+.fire {
+    background-image: linear-gradient(90deg, rgba(11, 17, 24, 1) 0%, rgba(11, 17, 24, 0.7) 40%, rgba(11, 17, 24, 0.1) 100%), url("images for warning/pozar.jpg");
+}
+
+.drought {
+    background-image: linear-gradient(90deg, rgba(11, 17, 24, 1) 0%, rgba(11, 17, 24, 0.7) 40%, rgba(11, 17, 24, 0.1) 100%), url("images for warning/Susa.jpg");
+}
+
+.flood {
+    background-image: linear-gradient(90deg, rgba(11, 17, 24, 1) 0%, rgba(11, 17, 24, 0.7) 40%, rgba(11, 17, 24, 0.1) 100%), url("images for warning/Poplava (2).jpg");
+}
+
+.alert-info { z-index: 5; }
+.alert-info strong { display: block; color: white; font-size: 17px; text-transform: uppercase; }
+.alert-info span { color: #00d2ff; font-size: 12px; opacity: 0.8; }
+
+/* Stagger effect */
+.side-panel.active .alert-card:nth-child(1) { transition-delay: 0.1s; }
+.side-panel.active .alert-card:nth-child(2) { transition-delay: 0.2s; }
+.side-panel.active .alert-card:nth-child(3) { transition-delay: 0.3s; }
+
+
+/* Стил за Modal-от */
+.modal {
+    display: none;
+    position: absolute;
+    z-index: 2000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #121a24;
+    padding: 20px;
+    border-radius: 20px;
+    border: 1px solid #ff4d4d;
+    width: 80%;
+    color: white;
+    text-align: center;
+}
+
+.risk-table { width: 100%; margin-top: 15px; font-size: 14px; }
+.risk-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+.close-modal { float: right; font-size: 24px; cursor: pointer; color: #ff4d4d; }
+
+/* Стил за X копчето со сјај и црвен круг */
+.close-modal {
+    float: right;
+    font-size: 20px;
+    cursor: pointer;
+    color: #ff4d4d;
+
+    /* Правење на кругчето */
+    width: 35px;
+    height: 35px;
+    border: 2px solid rgba(255, 77, 77, 0.43);
+    border-radius: 50%;
+
+    /* Центрирање на X внатре во кругот */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /*margin-bottom: 15px;*/
+    padding-bottom: 2px;
+
+    /* Почетен сјај (shining) */
+    box-shadow: 0 0 5px rgb(255, 77, 77);
+    transition: all 0.3s ease;
+
+    /* Анимација за постојано пулсирање на сјајот */
+    animation: pulse-red 2s infinite;
+}
+
+/* Ефект кога ќе поминеш со глувчето (Hover) */
+.close-modal:hover {
+    background-color: rgb(255, 77, 77);
+    color: rgb(255, 255, 255);
+    box-shadow: 0 0 20px rgba(236, 49, 32, 0.28);
+    transform: scale(1.1);
+}
+
+/* Дефиниција на анимацијата за сјаење */
+@keyframes pulse-red {
+    0% {
+        box-shadow: 0 0 0px 0px rgba(255, 77, 77, 0.7);
+    }
+    30% {
+        box-shadow: 0 0 0px 10px rgba(255, 77, 77, 0);
+    }
+    95% {
+        box-shadow: 0 0 0px 0px rgba(255, 77, 77, 0);
+    }
+}
+/* Основни стилови за контејнерот */
+.phone-container {
+    width: 360px;
+    height: 740px;
+    background: #000;
+    position: relative;
+    overflow: hidden;
+    border-radius: 40px;
+    border: 8px solid #333;
+}
+
+/* Екрани и Транзиции */
+#intro-screen, #main-app {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: opacity 0.8s ease-in-out;
+}
+
+#intro-screen {
+    z-index: 20;
+    opacity: 1;
+}
+
+#main-app {
+    z-index: 10;
+    opacity: 0;
+    display: none; /* Се вклучува преку JS */
+}
+
+/* Canvas за Three.js */
+#canvas-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Стил за наслови и копчиња во Intro */
+.intro-overlay {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Дозволува скролање преку текстот */
+}
+
+.intro-title {
+    color: white;
+    text-align: center;
+    margin-top: 120px;
+    font-family: sans-serif;
+    letter-spacing: 4px;
+}
+
+.intro-subtitle {
+    color: #00d2ff;
+    text-align: center;
+    font-size: 14px;
+}
+
+#start-btn {
+    pointer-events: auto;
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 25px;
+    background: transparent;
+    border: 2px solid #00d2ff;
+    color: #00d2ff;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* Мапа и UI елементи */
+#map {
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.top-bar {
+    position: absolute;
+    top: 20px;
+    width: 90%;
+    left: 5%;
+    display: flex;
+    justify-content: space-between;
+    z-index: 5;
+}
+
+.stat-box {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    font-size: 10px;
+    border: 1px solid #444;
+}
+
+.bottom-nav {
+    position: absolute;
+    bottom: 20px;
+    width: 90%;
+    left: 5%;
+    display: flex;
+    justify-content: space-around;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px 0;
+    border-radius: 20px;
+    z-index: 5;
+}
+
+.nav-item {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.nav-item.active {
+    color: #00d2ff;
+}
+
+/* Модал и Панел */
+.side-panel {
+    position: absolute;
+    right: -100%;
+    top: 0;
+    width: 80%;
+    height: 100%;
+    background: #111;
+    z-index: 10;
+    transition: 0.4s;
+    padding: 20px;
+}
+
+.side-panel.active {
+    right: 0;
+}
+
+.modal {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #222;
+    padding: 20px;
+    border-radius: 15px;
+    width: 80%;
+    color: white;
+}

@@ -1,0 +1,122 @@
+package Mari;
+import java.util.Random;
+
+
+
+public class Main{
+	private int[] data; //pole so vrednosti
+	private static final Random generator = new Random();
+	
+	//kreiranje pole so odredena golemina i popolnuvanje so slucajni broevi
+	public Main(int size) {
+		data = new int [size]; //rezerviranje prostor za poleto
+		
+		
+		//polnenje na pole so slucajni celi broevi vo opseg 10-99
+		for(int i=0;i<size;i++) 
+			data[i]= 10 + generator.nextInt(90);
+	} //kraj na konstruktorot
+	
+	
+	//povikuvanje na rekurziven metod za razdeluvanje za da pocne sortiranjeto so soedinuvanje
+	public void sort() {
+		sortArray(0, data.length-1);
+	} //kraj na metodot sort
+	
+	//razdeluvanje na poleto, sortiranje na potpolinja i soedinuvanje na polinja vo edno sortirano pole
+	private void sortArray(int low, int high) {
+		
+		//testiranje na osnoven slucaj:goleminata na poleto e 1
+		if((high - low) >= 1) { //ako ne e osnovniot slucaj
+			
+			int middle1= (low +high)/2; //presmetaj sredina na poleto
+			int middle2 = middle1+1; //presmetaj sleden element
+			
+			//pecatenje na cekorot na delenje
+			System.out.println("split: "+subarray(low,high));
+			System.out.println("           "+ subarray(low,middle1));
+			System.out.println();
+			
+			//podelba na poleto na polovina; sortiranje na sekoja polovina (rekurzivni povici)
+			sortArray(low, middle1); //prva polovina na poleto
+			sortArray(middle2, high); //vtora polovina na poleto
+			
+			
+			//soedinuvanje na dvete sortirani potpolinja otkako ke zavrsat povicite za sortiranje na potpolinjata
+			merge(low,middle1, middle2, high);
+		} //kraj na if
+	} //kraj na metodot sortArray
+	
+//soedinuvanje na dvete sortirani potpolinja vo edno sortirano potpole	
+	private void merge(int left, int middle1, int middle2, int right) {
+		int leftIndex=left; //indeks na levo potpole
+		int rightIndex=middle2;  //indeks na desno potpole
+		int combinedIndex= left; //
+		
+		int [] combined = new int[data.length];  //rabotno pole
+		
+		//pecatenje na dvete potpolinja pred soedinuvanje
+		System.out.print("merge: "+subarray(left,middle1));
+		System.out.println("        "+subarray(middle2, right));
+		
+		//soedinuvanje na polinja dodeka ne se dostigne krajot na ednoto
+		while(leftIndex <= middle1 && rightIndex <= right) { 
+		
+			//soedinuvanje na pomaliot od dvata tekovni elementa vo
+			//rezultatot i pomestuvanje na sledniot element vo polinjata
+			if(data[leftIndex] <=data[rightIndex]) 
+				combined[combinedIndex++]= data[leftIndex++];
+			else
+				combined[combinedIndex++]= data[rightIndex++];
+		} //kraj na while
+		
+		//ako levoto pole e prazno
+		if(leftIndex == middle2)
+			//kopiranje na ostatokot od desnoto pole
+			while(rightIndex <= right)
+				combined[combinedIndex++] = data[rightIndex++];
+		else //desnoto pole e prazno
+			//kopiranje na ostatokot od desnoto pole
+			while(leftIndex <= middle1)
+				combined[combinedIndex++] = data[leftIndex++];
+                
+		//kopiranje na vrednostite nazad vo originalnoto pole
+		for(int i=left; i<= right;i++)
+			data[i]= combined[i];
+		//pecatenje na soedinetoto pole
+		System.out.println("      "+subarray(left,right));
+		System.out.println();
+	} //kraj na metodot merge
+	
+	//metod za pecatenje odredeni vrednosti vo pole
+	public String subarray(int low, int high) {
+		StringBuilder temporary = new StringBuilder();
+		
+		
+	//pecatenje na prazni mesta za podreduvanje
+		for(int i=0;i<low;i++) 
+			temporary.append(" ");
+			
+		//pecatenje na elementi levo vo pole
+		for(int i=low;i<=high;i++) 
+			temporary.append(" "+data[i]);
+		
+		return temporary.toString();
+	}//kraj na metodot subarray
+	
+	
+	//metod za vrakanje vrednosti na poleto
+	public String toString() {
+		return subarray(0, data.length-1);
+	} //kraj na metodot toString
+	
+	
+	public static void main(String[] args) {
+		Main sortArray = new Main(10);
+		
+		System.out.println("Unsorted array: "+sortArray +"\n");
+		sortArray.sort(); 
+		
+		System.out.println("Sorted array: "+sortArray);
+	}
+} //kraj na klasata

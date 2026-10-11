@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="mk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco Alert - Planet to Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="Hackathon.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+
+<div class="phone-container">
+    <div id="intro-screen">
+        <div id="canvas-container"></div>
+
+        <div class="intro-overlay">
+            <h1 style="color: white; text-align: center; position: absolute; top: 20%; width: 100%; font-family: sans-serif; letter-spacing: 2px;">ECO ALERT</h1>
+            <button onclick="startApp()" id="start-btn">ВЛЕЗИ ВО МАПАТА</button>
+        </div>
+    </div>
+
+    <div id="main-app">
+        <div class="top-bar">
+            <div class="stat-box"><span>STATUS</span><strong>ACTIVE</strong></div>
+            <div class="stat-box"><span>LOCATION</span><strong id="loc-name">MACEDONIA</strong></div>
+            <div id="risk-btn" class="stat-box" style="cursor:pointer;">
+                <span>RISK</span><strong style="color: #ff4d4d;">HIGH</strong>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <div id="alerts-panel" class="side-panel">
+            <button class="close-btn" onclick="closeAlerts()">← Back</button>
+            <div class="panel-header"><h2>ACTIVE ALERTS</h2></div>
+            <div class="alerts-list">
+                <div class="alert-card fire" onclick="focusLocation(41.7, 22.8)">
+                    <div class="alert-info"><strong>Forest Fire</strong><span>Berovo</span></div>
+                </div>
+                <div class="alert-card drought" onclick="focusLocation(41.4, 21.3)">
+                    <div class="alert-info"><strong>Severe Drought</strong><span>Prilep</span></div>
+                </div>
+                <div class="alert-card flood" onclick="focusLocation(41.9, 21.0)">
+                    <div class="alert-info"><strong>Flood Warning</strong><span>Polog</span></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="nav-item">MENU</button>
+            <button class="nav-item">HISTORY</button>
+            <button class="nav-item active">NEAREST</button>
+            <button class="nav-item">ALERTS</button>
+        </div>
+    </div>
+
+    <div id="risk-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeRiskModal()">&times;</span>
+            <h3>RISK ASSESSMENT</h3>
+            <table class="risk-table">
+                <tr><td>Flood Level:</td><td style="color: #00d2ff;">Low (1.2m)</td></tr>
+                <tr><td>Fire Index:</td><td style="color: #ff4d4d;">Critical</td></tr>
+                <tr><td>Drought:</td><td style="color: #e5bc0d;">Moderate</td></tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="hackathon.js"></script>
+</body>
+</html>
