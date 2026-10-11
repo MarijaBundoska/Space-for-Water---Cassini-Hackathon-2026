@@ -11,8 +11,6 @@
 
 <p align="center">
    <img width="800" height="533" alt="SpaceForWater" src="https://github.com/user-attachments/assets/6e0357a6-0a60-4579-a5fa-9d952de05abb" />
-       alt="Space for Water project visualization"
-       width="800">
 </p>
 
 The project focuses on two major environmental challenges:
